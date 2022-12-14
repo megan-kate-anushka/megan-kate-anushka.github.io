@@ -280,10 +280,20 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Problem Statement</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
+        <div class="content has-text-justified">
+            <p>
+              We present a model that renders and extracts features from 3D scenes that contain transparent objects.
+              There are existing datasets of transparent objects and methods to render transparent objects, such as
+              KeyPose and Dex-NeRF. However, few approaches render and extract transparent objects from scenes. As a
+              result, we propose a method that involves training TensoRF instead of NeRF on a dataset of transparent
+              objects for faster scene rendering. We employ feature field distillation to relate regions of a scene
+              with their features, so that we can render specific features within a scene. In addition to
+              qualitatively evaluating the renderings of the transparent objects, we will use quantitative metrics
+              such as Peak Signal to Noise Ratio (PSNR) and mean squared error (MSE) loss to evaluate our model
+              performance. Through this work, we hope to test the limits of neural rendering models and expand upon
+              the types of objects that these algorithms can reconstruct.
+            </p>
+          </div>
       </div>
     </div>
     <!--/ Problem statement. -->
