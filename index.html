@@ -188,6 +188,7 @@
               
               <span class="bolded">Feature and Radiance Fields</span>
             </p>
+            <br>
             <p>
               The radiance field was trained on the LLFF flower images. Given an input of a sampled 3D point, the radiance field outputs the color and density. 
               The feature field was trained using the DINO feature representation for each image, which was obtained from extracting visual descriptors from <a href="https://github.com/ShirAmir/dino-vit-features">this implementation</a>. 
@@ -198,7 +199,10 @@
             <p>
               <span class="bolded">2D Scene Decomposition</span>
             </p>
+            <br>
             <p>
+              Eventually, we want to use the feature field to extract and render specific objects from a 3D scene. First, we implemented 2D scene decomposition to ensure that we can extract a specific object
+              from a 2D image, before we apply similar logic to implement this in the 3D case.
               During 2D scene decomposition, we select an image patch query of the feature of interest (ex. flower, bottle) and get the DINO feature vector corresponding to the pixels in the image patch. 
               We also have the DINO feature vectors for the entire image. To find the pixels in the image that would match the image patch, we compute the dot product between the patch feature vector and 
               the feature vectors from the image. This results in a list of values corresponding to each pixel in the image. These values would be greater for pixels that are more similar to the patch. 
@@ -212,6 +216,7 @@
             <p>
               <span class="bolded">3D Scene Decomposition</span>
             </p>
+            <br>
             <p>
               Similar to 2D scene decomposition, we apply a similar mechanism for 3D scene decomposition. For each sampled point, we apply the feature and radiance fields. The feature field outputs the DINO feature 
               feature at that point, and we compute a dot product between the DINO feature and the patch query feature. In this case, the patch query is the DINO feature representing a section of the flower. The radiance 
@@ -255,12 +260,21 @@
             <h2 class="subtitle is-4">Extracting and Rendering Features from 3D Flower Scene (Opaque)</h2>
             <p>
                 We attempted to extract and only render the flower features from the scene. Due to computation constraints, we only render a
-                limited number of views using our trained feature and radiance fields. We used different thresholds for the dot product between
-                the patch flower feature and the DINO features from the feature field. Below are the results from two thresholds. As shown in the
+                limited number of views using our trained feature and radiance fields. We show the distribution of the dot product values between
+                the patch flower feature and the DINO features from the feature field in the figure below, and we determined different thresholds
+                using this histogram.
+                
+                Below are the video results from two thresholds. As shown in the
                 videos, the threshold of -0.5 removes more of the background features. However, it also removes some unintended pixels
                 of the flower in the scene. On the other hand, the threshold of -1 keeps more of the pixels with the flower, but it also does not
                 remove the non-flower pixels. We hope to try out additional thresholds in the future to better extract the flower features,
                 as well as render the scene using more views.
+            </p>
+            <br>
+
+            <img src="static/images/hist-dot_out-flower.png" alt="Histogram for rendering flower" width="400">
+            <p>
+                Distribution of values from computing dot product between patch feature and features from the feature field
             </p>
             <br>
 
