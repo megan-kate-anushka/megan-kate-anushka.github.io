@@ -251,8 +251,10 @@
                 at the 11th layer of the model. We extract the features corresponding to the flower in the image by calculating a 
                 dot product between a known flower patch feature and all features in the image. Using the histogram of dot product results,
                 we select a threshold for values that correspond to the flower. We choose a threshold of 10 for the flower and change the pixels
-                whose dot products are lower than the threshold to be black.
+                whose dot products are lower than the threshold to be black. In addition, we extracted the leaf feature from the same image using a threshold of 15, as shown below.
             </p>
+            <img src="static/images/leaf.png" alt="Image for Extracting Features from 2D Leaf" width="300">
+            <img src="static/images/leaf_hist.png" alt="Histogram for Extracting Features from 2D Leaf" width="300">
             <br>
             <br>
 
