@@ -135,24 +135,44 @@
             <h2 class="title is-3">Related Work</h2>
             <div class ="content has-text-justified">
                 <p> 
-                  We will extend the work of <a href="https://arxiv.org/abs/2205.15585">“Decomposing NeRF for Editing via Feature Field Distillation”</a>. To mitigate the limitations present in other works, the paper introduces Distilled Feature Fields (DFFs) to locally edit scenes rendered by NeRF. DFFs map a coordinate <span class="bolded">x</span> and a viewing direction <span class="bolded">d</span>to a density, color, and feature. The way DFFs are trained is by minimizing the difference between the features rendered by NeRF and features that are predicted by a pre-trained 2D image feature encoder. In addition, the difference between the rendered and ground-truth pixel colors is also minimized. The pre-trained feature encoders that the paper uses are LSeg and DINO. 
+                  We will extend the work of <a href="https://arxiv.org/abs/2205.15585">“Decomposing NeRF for Editing via Feature Field Distillation”</a>. 
+                  To mitigate the limitations present in other works, the paper introduces Distilled Feature Fields (DFFs) to locally edit scenes rendered by NeRF. 
+                  DFFs map a coordinate <span class="bolded">x</span> and a viewing direction <span class="bolded">d</span> to a density, color, and feature. 
+                  The way DFFs are trained is by minimizing the difference between the features rendered by NeRF and features that are predicted by a pre-trained 2D image feature encoder. 
+                  In addition, the difference between the rendered and ground-truth pixel colors is also minimized. The pre-trained feature encoders that the paper uses are LSeg and DINO. 
                 </p> 
 
                 <p>
-                  Without a pre-trained feature extractor, it is difficult to make localized, query-based edits on specific objects in the 3D scene. This is because scenes rendered by NeRF are implicitly encoded in the weights of an MLP or voxel grid and are not object-centric. An example of this occurs in <a href="https://arxiv.org/abs/2112.05139">CLIP-NeRF</a>, which is a model that uses CLIP to edit NeRF renderings using text prompts. CLIP is a neural network with zero-shot performance that learns relationships between visual concepts and natural language. However, CLIP-NeRF often edits additional regions unrelated to the object specified by the text query. <a href="https://arxiv.org/abs/2012.08503">Some works</a> also reconstruct scenes with more constrained representations with domain or situation specific pipelines. However, this limits the types of scenes and objects that can be edited. 
+                  Without a pre-trained feature extractor, it is difficult to make localized, query-based edits on specific objects in the 3D scene. 
+                  This is because scenes rendered by NeRF are implicitly encoded in the weights of an MLP or voxel grid and are not object-centric. 
+                  An example of this occurs in <a href="https://arxiv.org/abs/2112.05139">CLIP-NeRF</a>, which is a model that uses CLIP to edit NeRF renderings using text prompts. 
+                  CLIP is a neural network with zero-shot performance that learns relationships between visual concepts and natural language. 
+                  However, CLIP-NeRF often edits additional regions unrelated to the object specified by the text query. <a href="https://arxiv.org/abs/2012.08503">Some works</a> also 
+                  reconstruct scenes with more constrained representations with domain or situation specific pipelines. However, this limits the types of scenes and objects that can be edited. 
                 </p>
 
                 <p>
-                  Therefore, "Decomposing NeRF for Editing via Feature Field Distillation" uses <a href="https://arxiv.org/abs/2104.14294">DINO</a> and LSeg as feature encoders for their DFF model. DINO is a model that uses self-supervised learning to semantically segment 2D images. The model works by using self-distillation, a method that uses teacher and student networks. In the forward pass, the teacher and student networks receive two different crops of the image as an input. The output of the teacher network is centered, and both the teacher and student network outputs are passed through softmax and loss functions. During backpropagation, only the student's weights are updated. The teacher's weights are updated by applying an exponential moving average on the student's weights.
+                  Therefore, "Decomposing NeRF for Editing via Feature Field Distillation" uses <a href="https://arxiv.org/abs/2104.14294">DINO</a> and LSeg as feature encoders for their DFF model. 
+                  DINO is a model that uses self-supervised learning to semantically segment 2D images. The model works by using self-distillation, a method that uses teacher and student networks. 
+                  In the forward pass, the teacher and student networks receive two different crops of the image as an input. The output of the teacher network is centered, and both the teacher and 
+                  student network outputs are passed through softmax and loss functions. During backpropagation, only the student's weights are updated. The teacher's weights are updated by applying 
+                  an exponential moving average on the student's weights.
                 </p> 
                 <p> 
-                  <a href="https://arxiv.org/abs/2201.03546">LSeg (Language-Driven Semantic Segmentation)</a> is a zero-shot semantic image segmentation model. Traditional semantic segmentation models require labeled training data which is usually created by human annotators. This process is both time and labor intensive, and it is also prone to human-errors. Some zero-shot segmentation models use standard word embeddings while focusing on the image encoder. LSeg improves upon zero-shot semantic segmentation by using the CLIP model to train an image encoder to produce input image embeddings that are similar to the corresponding label embeddings produced by the text encoder.
+                  <a href="https://arxiv.org/abs/2201.03546">LSeg (Language-Driven Semantic Segmentation)</a> is a zero-shot semantic image segmentation model. Traditional semantic segmentation models 
+                  require labeled training data which is usually created by human annotators. This process is both time and labor intensive, and it is also prone to human-errors. Some zero-shot 
+                  segmentation models use standard word embeddings while focusing on the image encoder. LSeg improves upon zero-shot semantic segmentation by using the CLIP model to train an image 
+                  encoder to produce input image embeddings that are similar to the corresponding label embeddings produced by the text encoder.
                 </p>
                 <p>
-                  Although NeRF renderings are used in some of the mentioned papers, it is time-consuming to train and can take up to several days to model a single scene. To mitigate this, <a href="https://arxiv.org/abs/2203.09517">TensoRF</a> decomposes 4D radiance field tensors into multiple low-rank tensors to enable faster reconstruction and higher quality renderings than NeRF.
+                  Although NeRF renderings are used in some of the mentioned papers, it is time-consuming to train and can take up to several days to model a single scene. To mitigate this, 
+                  <a href="https://arxiv.org/abs/2203.09517">TensoRF</a> decomposes 4D radiance field tensors into multiple low-rank tensors to enable faster reconstruction and higher quality 
+                  renderings than NeRF.
                 </p>
                 <p>
-                  Work on rendering transparent objects is limited. <a href="https://arxiv.org/abs/2110.14217">Dex-NeRF</a>  uses NeRF to render the geometry of transparent objects to improve robot manipulation. The authors of Dex-NeRF have also created a publicly available dataset of real and synthetic transparent objects in real-world settings. While Dex-NeRF improves rendering scenes with transparent objects, it does not enable editing of scenes containing transparent objects.
+                  Work on rendering transparent objects is limited. <a href="https://arxiv.org/abs/2110.14217">Dex-NeRF</a>  uses NeRF to render the geometry of transparent objects to improve robot 
+                  manipulation. The authors of Dex-NeRF have also created a publicly available dataset of real and synthetic transparent objects in real-world settings. While Dex-NeRF improves 
+                  rendering scenes with transparent objects, it does not enable editing of scenes containing transparent objects.
                 </p>
             </div>
         </div>
@@ -167,17 +187,30 @@
             <p>
               
               <span class="bolded">Feature and Radiance Fields</span>
+              The radiance field was trained on the LLFF flower images. Given an input of a sampled 3D point, the radiance field outputs the color and density. 
+              The feature field was trained using the DINO feature representation for each image, which was obtained from extracting visual descriptors from <a href="https://github.com/ShirAmir/dino-vit-features">this implementation</a>. 
+              Given a sampeld 3D point as input, the feature field outputs the DINO feature at that point.
             </p>
             <br>
             <img src="static/images/2d_scene_decomposition.png" alt="2D Scene Decomposition">
             <p>
               <span class="bolded">2D Scene Decomposition</span>
+              During 2D scene decomposition, we select an image patch query of the feature of interest (ex. flower, bottle) and get the DINO feature vector corresponding to the pixels in the image patch. 
+              We also have the DINO feature vectors for the entire image. To find the pixels in the image that would match the image patch, we compute the dot product between the patch feature vector and 
+              the feature vectors from the image. This results in a list of values corresponding to each pixel in the image. These values would be greater for pixels that are more similar to the patch. 
+              To extract the features most similar to the patch, we find a threshold that extracts the desired object from the patch in the image. This was obtained from plotting the distribution of thresholds 
+              and querying for thresholds that separate modes of the distribution. We keep the RGB values for the values that are above the threshold. For values below the threshold, we set the RGB values to 0. 
+              As a result, the flower in the image is extracted and the background and leaves are set to 0. In the transparent object case, the bottle is extracted. However, some parts of the shadow were extracted 
+              because the feature vector was very similar for the bottle and its shadow.
             </p>
             <br>
             <img src="static/images/3d_scene_decomposition.png" alt="3D Scene Decomposition">
             <p>
               <span class="bolded">3D Scene Decomposition</span>
-
+              Similar to 2D scene decomposition, we apply a similar mechanism for 3D scene decomposition. For each sampled point, we apply the feature and radiance fields. The feature field outputs the DINO feature 
+              feature at that point, and we compute a dot product between the DINO feature and the patch query feature. In this case, the patch query is the DINO feature representing a section of the flower. The radiance 
+              field outputs hte color and density at the sampled point. If the value of the dot product is less than the threshold, we set the density to 0. Otherwise, we keep the density output from the radiance field as is. 
+              As a result, only the areas corresponding to the feature in the selected patch will be rendered. In this casem the flower.
             </p>
         </div>
     </div>
