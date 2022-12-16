@@ -187,17 +187,30 @@
             <p>
               
               <span class="bolded">Feature and Radiance Fields</span>
+              The radiance field was trained on the LLFF flower images. Given an input of a sampled 3D point, the radiance field outputs the color and density. 
+              The feature field was trained using the DINO feature representation for each image, which was obtained from extracting visual descriptors from <a href="https://github.com/ShirAmir/dino-vit-features">this implementation</a>. 
+              Given a sampeld 3D point as input, the feature field outputs the DINO feature at that point.
             </p>
             <br>
             <img src="static/images/2d_scene_decomposition.png" alt="2D Scene Decomposition">
             <p>
               <span class="bolded">2D Scene Decomposition</span>
+              During 2D scene decomposition, we select an image patch query of the feature of interest (ex. flower, bottle) and get the DINO feature vector corresponding to the pixels in the image patch. 
+              We also have the DINO feature vectors for the entire image. To find the pixels in the image that would match the image patch, we compute the dot product between the patch feature vector and 
+              the feature vectors from the image. This results in a list of values corresponding to each pixel in the image. These values would be greater for pixels that are more similar to the patch. 
+              To extract the features most similar to the patch, we find a threshold that extracts the desired object from the patch in the image. This was obtained from plotting the distribution of thresholds 
+              and querying for thresholds that separate modes of the distribution. We keep the RGB values for the values that are above the threshold. For values below the threshold, we set the RGB values to 0. 
+              As a result, the flower in the image is extracted and the background and leaves are set to 0. In the transparent object case, the bottle is extracted. However, some parts of the shadow were extracted 
+              because the feature vector was very similar for the bottle and its shadow.
             </p>
             <br>
             <img src="static/images/3d_scene_decomposition.png" alt="3D Scene Decomposition">
             <p>
               <span class="bolded">3D Scene Decomposition</span>
-
+              Similar to 2D scene decomposition, we apply a similar mechanism for 3D scene decomposition. For each sampled point, we apply the feature and radiance fields. The feature field outputs the DINO feature 
+              feature at that point, and we compute a dot product between the DINO feature and the patch query feature. In this case, the patch query is the DINO feature representing a section of the flower. The radiance 
+              field outputs hte color and density at the sampled point. If the value of the dot product is less than the threshold, we set the density to 0. Otherwise, we keep the density output from the radiance field as is. 
+              As a result, only the areas corresponding to the feature in the selected patch will be rendered. In this casem the flower.
             </p>
         </div>
     </div>
