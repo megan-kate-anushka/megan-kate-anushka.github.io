@@ -187,10 +187,85 @@
     <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
             <h2 class="title is-3">Results</h2>
-            <div class="publication-video">
-            <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
-                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-            </div>
+
+            <h2 class="subtitle is-3">Rendering 3D Flower Scene (Opaque)</h2>
+            <video autoplay="true" class="video" loop="true" muted>
+                <source src="static/videos/video_default.mp4">
+            </video>
+            <p>
+                As an initial experiment, we use the flower images from the LLFF dataset to render the scene using vanilla TensoRF. No changes
+                were made to the TensoRF codebase to generate this result. 
+            </p>
+            
+            <h2 class="subtitle is-3">Extracting Features from 2D Flower Image (Opaque)</h2>
+            <img src="static/images/flower_extract_2d_image.png" alt="Image for Extracting Features from 2D Flower">
+            <img src="static/images/flower_extract_2d_hist.png" alt="Histogram for Extracting Features from 2D Flower">
+            <p>
+                In order to extract objects from the 2D flower image, we used the DINO feature extractor to obtain the features
+                at the 11th layer of the model. We extract the features corresponding to the flower in the image by calculating a 
+                dot product between a known flower patch feature and all features in the image. Using the histogram of dot product results,
+                we select a threshold for values that correspond to the flower. We choose a threshold of 10 for the flower and change the pixels
+                whose dot products are lower than the threshold to be black.
+            </p>
+
+            <h2 class="subtitle is-3">Extracting and Rendering Features from 3D Flower Scene (Opaque)</h2>
+            <p>
+                We attempted to extract and only render the flower features from the scene. Due to computation constraints, we only render a
+                limited number of views using our trained feature and radiance fields. We used different thresholds for the dot product between
+                the patch flower feature and the DINO features from the feature field. Below are the results from two thresholds. As shown in the
+                videos, the threshold of -0.5 removes more of the background features. However, it also removes some unintended pixels
+                of the flower in the scene. On the other hand, the threshold of -1 keeps more of the pixels with the flower, but it also does not
+                remove the non-flower pixels. We hope to try out additional thresholds in the future to better extract the flower features,
+                as well as render the scene using more views.
+            </p>
+
+            <video autoplay="true" class="video" loop="true" muted>
+                <source src="static/videos/video-5it-05th.mp4">
+            </video>
+            <p>
+                <span class="bolded">Video from attempting to extract and render flower with threshold -0.5</span>
+            </p>
+
+            <video autoplay="true" class="video" loop="true" muted>
+                <source src="static/videos/video-5it-1th.mp4">
+            </video>
+            <p>
+                <span class="bolded">Video from attempting to extract and render flower with threshold -1</span>
+            </p>
+
+
+            <h2 class="subtitle is-3">Extracting Features from 2D Image with Transparent Object</h2>
+            <p>
+                We use the same methodology to extract features from the 2D images containing a transparent object as we did in the opaque case. 
+                This example image is from the KeyPose dataset, and we use a threshold of 25 to extract the bottle from the image. Although the bottle
+                is extracted correctly, the extracted image also includes areas of the bottle's shadow. This may be because the DINO feature vector is 
+                very similar for the bottle and its shadow.
+            </p>
+
+            <h2 class="subtitle is-3">Rendering Features from 3D Scene with Transparent Object</h2>
+            <img src="static/images/coord.png" alt="Camera coordinate systems">
+            <p>
+                We attempted to extract and render transparent objects from 3D scenes using images from the KeyPose and Dex-NeRF datasets.
+                We used the transforms matrix and camera intrinsics provided by both datasets. However, we believe that the poses for
+                both of these datasets are in the format of the OpenCV coordinate system. We attempted to convert the rotation matrix for these
+                datasets from OpenCV to the LLFF coordinate system because TensoRF converts from LLFF to NeRF coordinate system, as shown
+                in the figure above. However, we found that the rendered video output on the transparent object datasets using our
+                modified poses looks incorrect.
+            </p>
+
+            <video autoplay="true" class="video" loop="true" muted>
+                <source src="static/videos/video-keypose-lol.mp4">
+            </video>
+            <p>
+                <span class="bolded">Rendered video output for images from KeyPose dataset</span>
+            </p>
+
+            <video autoplay="true" class="video" loop="true" muted>
+                <source src="static/videos/video-dexnerf-lol.mp4">
+            </video>
+            <p>
+                <span class="bolded">Rendered video output for images from Dex-NeRF dataset</span>
+            </p>
         </div>
     </div>
     <!--/ Results. -->
